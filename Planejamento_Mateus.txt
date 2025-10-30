@@ -1,0 +1,52 @@
+Oi, não sei se posso deixar o meu planejamento pessoal aqui ou eu deveria ter colocado no meu próprio github. Mas por enquanto vou colocar aqui se não for problema
+
+Se for problema eu removo daqui || é problema [ ] (marca aqui se for para remover)
+
+=====================================================================================================================================
+Passo1: entender o código sequencial
+1.1: Escrever o passo a passo do programa e identificar passos paralelizáveis
+
+Passo2: planejar (sem código) os passos necesários para a parelelização do código
+
+Passo3: programar seguindo o planejamento do passo 2
+
+===============================================================
+Structs:
+
+ponto(point)
+int* coordenadas; //aponta para um vetor de coordenadas int
+int cluster_id; //Id que diz a qual cluster esse ponto pertence atualmente
+
+
+==||==||==||==||==||==||==||==||==||==||==||==||==||==||==||==||==||==||==||==||==
+
+
+Funções utilitárias:
+Euclidean_dist_sq(Point* P1, Point* P2, int D){ // long long |:| Recebe dois pontos e a sua dimenção(D), retorna o quadrado da distância euclidiana desses pontos
+
+long long distancia = 0;
+for(int i = 0; i < D; i++){ // percorre as D dimensões 
+   long long diferença = (long long)P1->coordenadas[i] - P2->coordenadas[i]; // a diferença (distância) entre aquela coordenada dos pontos;
+distancia += diferenca^2; // que nem no "a hipostenusa ao quadrado é a soma dos quadrados dos catetos", distância é a hipotenusa ao quadrado e os catetos são a distancia.
+
+
+
+Read_data_from_file(cont char* FileName, Point* points, int M, int D){ // void |:| Lê os dados do arquivo de dataset (deve ser facilmente copiável) || D é a quantidade de dimensões, M parece ser a quantidade de pontos
+
+1- Abrir Dataset em read
+2- for(i < M) for(j < D); fscan(file, "%d", &points[i].coordenadas[j])// vai copiar um por um o valor da dimensão j no ponto i
+3- fclose
+
+
+Initialize_Centroids(point* points, int M, int K, int D){ // void |:| inicaliza os centróides escolherndo k pontos aleatórios do dataset. M e D continuam sendo a quantidade de pontos e Dimensionalidade como always
+
+set seed fixa para reprodutibilidade
+int* indices = (int*) malloc(M * sizeof(int)); // inicializa um array de indices inteiros com os M pontos dados do dataset
+for(i < M): indices [i] = i; //ou seja cada ponto ganhou o seu indice
+for(i < M):
+int j = rand() % M; // j é um numero aleatório entre 0 e M-1
+int temporário = indices[i]; //temporário é o valor do indice numero i
+indices[i] = indices[j]; // Basicamente o que aconteceu nessas duas linhas foi: ponto j(aleatório) trocou de indice com i e vice e versa. Isso para cada ponto, ou seja, vai ser a maior trocação de indices pra la e pra ca
+indices[j] = temporário; // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}//fim for
+
