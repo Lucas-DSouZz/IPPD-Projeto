@@ -81,6 +81,7 @@ void initialize_centroids(Point* points, Point* centroids, int M, int K, int D) 
  * @brief Fase de Atribuição: Associa cada ponto ao cluster do centroide mais próximo.
  */
 void assign_points_to_clusters(Point* points, Point* centroids, int M, int K, int D) {
+  #pragma omp parallel for
   for (int i = 0; i < M; i++) {
     long long min_dist = LLONG_MAX;
     int best_cluster = -1;
