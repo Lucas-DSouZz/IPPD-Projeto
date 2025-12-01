@@ -110,6 +110,25 @@ void update_centroids(Point* points, Point* centroids, int M, int K, int D) {
     long long* local_sums = (long long*)calloc(K * D, sizeof(long long));
     int* local_counts = (int*)calloc(K, sizeof(int));
 
+    #pragma omp for
+    for (int i = 0; i < M; i++) {
+      int cluster_id = points[i].cluster_id;
+      local_counts[cluster_id]++;
+      for (int j = 0; j < D; j++) {
+        local_sums[cluster_id * D + j] += points[i].coords[j];
+      }
+    }
+    
+    #pragma omp critical
+    {
+      for (int c = 0; c < K; c++) {
+        cluster_counts[c] += local_counts[c];
+        for (int j = 0; j < D; j++) {
+          cluster_sums[c * D + j] += local_sums[c * D + j];
+        }
+      }
+    }
+
     free(local_sums);
     free(local_counts);
   }
