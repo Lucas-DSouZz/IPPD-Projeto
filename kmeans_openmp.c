@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>  // Header correto para clock_gettime e struct timespec
+#include <omp.h>   // Para OpenMP
 
 // Estrutura para representar um ponto no espaço D-dimensional
 typedef struct {
